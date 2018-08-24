@@ -3,3 +3,6 @@ all:
 
 dump:
 	objdump -d test_builtin_expect.o
+
+s:
+	gcc -S test_builtin_expect.c
