@@ -6,3 +6,6 @@ dump:
 
 s:
 	gcc -S test_builtin_expect.c
+
+cow:
+	gcc -fPIC -shared cow.c -o cow.so

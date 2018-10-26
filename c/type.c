@@ -8,5 +8,9 @@ int main() {
     printf("i = %u\n", i); // 255
     printf("i = %u\n", 0x100 | c); // 4294967295
     printf("i = %u\n", 0x100 | (c & 0xff)); // 511
+    i = (unsigned char)c;
+    printf("i = %u\n", i); // 255
+    i = (unsigned int)c;
+    printf("i = %u\n", i); // 4294967295
     return 0;
 }
