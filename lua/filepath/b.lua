@@ -1,0 +1,3 @@
+local name,path=...
+print(name,path)
+print(...)
