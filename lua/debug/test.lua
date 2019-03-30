@@ -13,21 +13,42 @@ function main()
     foo()
 end
 
-
-local function hook(...)
-    --print(inspect({...}))
-    local info = debug.getinfo(2, "nS")
-    --print(inspect(info))
-    local mode = ...
-    if mode == "return" then
-        print(mode, inspect(info))
-    else 
-        print(mode, inspect(info))
+local function hook(level)
+    local call = 0
+    return function (mode, line)
+        --print(inspect({...}))
+        local info = debug.getinfo(2, "nS")
+        --print(inspect(info))
+        if mode == "return" then
+            if call <= 0 then
+                debug.sethook()
+                return
+            end
+            call = call - 1
+        elseif mode == "call" then
+            call = call + 1
+        end
+        if call <= level then
+            print(mode, inspect(info))
+        end
     end
 end
 
-debug.sethook(hook, "cr")
+local function up(level, f)
+    local call = 0
+    return function(mode)
+        if mode == "return" then
+            call = call + 1
+            if call == level then
+                debug.sethook(f, "cr")
+            end
+        elseif mode == "call" then
+            call = call - 1
+        end
+    end
+end
+
+debug.sethook(up(1, hook(2)), "cr")
+-- debug.sethook(up(1, hook(2)), "cr")
 
 main()
-
-debug.sethook()
