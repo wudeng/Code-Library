@@ -212,7 +212,7 @@ function world:each(component_type)
 end
 
 function world:first_entity(c_type)
-    -- luacheck: push ignore 
+    -- luacheck: push ignore
     for _, e in self:each(c_type) do
         return e
     end
@@ -371,20 +371,26 @@ function ecs.new_world(config)
     for k,v in pairs(class.component) do
         w._component_type[k] = component(v)
     end
+    print(class)
 
     -- init system
     w.singletons = system.singleton(class.system, w._component_type)
     local proxy = system.proxy(class.system, w.singletons)
+    print(proxy)
 
     local init_list, update_list, sort_list = system.sort(class.system, config.update_first, config.update_last)
-
+    print(update_list)
     local update_switch = system.list_switch(update_list)
+    print(update_switch)
+
+    print(sort_list)
 
     w._subscribers = system.subscribers(class.system, sort_list, proxy)
     local subscribers_switch = system.table_switch(w._subscribers)
 
     function w.enable_system(name, enable)
         update_switch:enable(name, enable)
+        print(update_switch)
         subscribers_switch:enable(name, enable)
     end
 

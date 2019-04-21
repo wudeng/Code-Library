@@ -30,10 +30,13 @@ local ecs = require "ecs"
 --local m = modules "test/system;test/component"
 local module_searchdirs = "./?.lua"
 local w = ecs.new_world { modules = {
-                "test.system.dummy", 
-                "test.system.init", 
-                "test.component.foobar" }, 
-                module_path = module_searchdirs, update_order = { "init" } }
+                "test.system.dummy",
+                "test.system.init",
+                "test.component.foobar" },
+                module_path = module_searchdirs,
+                update_first = {"init" },
+                update_last = {"dummy"},
+            }
 
 print("--------- Step 1 -----------")
 w.update()
