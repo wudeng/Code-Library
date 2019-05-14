@@ -13,6 +13,7 @@ function main()
     foo()
 end
 
+-- 控制hook的深度
 local function hook(level)
     local call = 0
     return function (mode, line)
@@ -34,6 +35,7 @@ local function hook(level)
     end
 end
 
+-- 在sethook 返回之后，将f设置为hook
 local function up(level, f)
     local call = 0
     return function(mode)
@@ -52,3 +54,6 @@ debug.sethook(up(1, hook(2)), "cr")
 -- debug.sethook(up(1, hook(2)), "cr")
 
 main()
+
+local co = coroutine.create(foo)
+print(coroutine.resume(co))
