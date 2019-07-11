@@ -1,0 +1,11 @@
+probe begin {
+    printf("Tracing %d (@1) for Skynet...\n", target())
+}
+
+probe timer.s(3) {
+    exit()
+}
+
+probe end{
+    printf("finished\n")
+}

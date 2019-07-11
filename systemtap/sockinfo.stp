@@ -1,0 +1,17 @@
+#! /usr/bin/env stap
+%{
+#include <linux/version.h>
+#include <net/sock.h>
+#include <net/tcp.h>
+#include <linux/tcp.h>
+#include <net/inet_sock.h>
+#include <net/ip.h>
+#include <linux/skbuff.h>
+%}
+
+probe kernel.statement ("sock_sendmsg"),
+      kernel.statement ("sock_recvmsg")
+{
+  printf ("%s:%d<->%s:%d\n", ip_ntop($sock->sk->__sk_common->skc_daddr), ntohs(@cast($sock->sk, "struct inet_sock")->inet_sport), ip_ntop($sock->sk->__sk_common->skc_rcv_saddr), ntohs($sock->sk->__sk_common->skc_dport) )
+  printf ("%s(%d) %s : sock_flags:%d sndbuf:%d rcvbuf:%d\n", execname(), pid(), probefunc(), $sock->flags, $sock->sk->sk_sndbuf, $sock->sk->sk_rcvbuf)
+}
