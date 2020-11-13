@@ -1,6 +1,6 @@
 .PHONY:all
 
-all: array.so
+all: array.so tuple.so
 
-array.so: array.c
+%.so: %.c
 	gcc -g -shared -o $@ -fPIC -llua $<

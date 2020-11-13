@@ -1,19 +1,12 @@
 #include <vector>
-#include <cstdio>
+
+#include "common.h"
 
 using namespace std;
 
 bool odd(int i) {
 	return i & 1;
 }
-
-void printArray(vector<int> &array) {
-    for (int i = 0; i< array.size(); i++) {
-        printf("%d,", array[i]);
-    }
-    printf("\n");
-}
-
 
 void reOrderArray(vector<int> &array) {
 	int len = array.size();
